@@ -1,0 +1,57 @@
+<VirtualHost *:80>
+
+    ProxyRequests off
+    RewriteEngine on
+
+    LogLevel warn
+    KeepAlive Off
+    DocumentRoot "/var/www/html"
+
+    # Block MS-DOS device names
+    # https://community.spiceworks.com/topic/post/4567271
+    RewriteCond %{REQUEST_URI} ^/AUX/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/CON/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/PRN/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/CLOCK$/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/NUL/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/COM1/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/LPT1/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/LPT2/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/LPT3/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/COM2/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/COM3/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/COM4/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/A:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/B:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/C:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/D:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/E:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/F:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/G:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/H:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/I:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/J:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/K:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/L:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/M:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/N:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/O:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/P:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/Q:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/R:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/S:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/T:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/U:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/V:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/W:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/X:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/Y:/.aspx [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/Z:/.aspx [NC]
+    RewriteRule ^(.*)$ - [F,L]
+
+    <FilesMatch "\.(?i:pdf)$">
+        ForceType application/octet-stream
+        Header set Content-Disposition attachment
+    </FilesMatch>
+
+</VirtualHost>

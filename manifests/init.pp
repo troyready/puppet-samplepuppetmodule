@@ -44,9 +44,44 @@
 #
 class samplepuppetmodule {
 
-  package { 'mc':
+  package { 'httpd':
     ensure => 'installed',
     allow_virtual => true
+  }
+
+  service { 'httpd':
+    ensure => 'running',
+    enable => true,
+    require => Package['httpd']
+  }
+
+  file { '/etc/httpd/conf.d/testfilter.conf':
+    notify  => Service['httpd'],
+    ensure => 'file',
+    content => template('samplepuppetmodule/testfilter.conf.erb'),
+    require => Package['httpd']
+  }
+
+  # Bad file
+  file { '/var/www/html/AUX':
+    ensure => 'directory',
+    require => Package['httpd']
+  }
+  file { '/var/www/html/AUX/.aspx':
+    ensure => 'file',
+    content => "CANTSEETHIS!\n",
+    require => Package['httpd']
+  }
+
+  # Good file
+  file { '/var/www/html/bacon':
+    ensure => 'directory',
+    require => Package['httpd']
+  }
+  file { '/var/www/html/bacon/tasty.txt':
+    ensure => 'file',
+    content => "CANSEETHIS!\n",
+    require => Package['httpd']
   }
 
 }
