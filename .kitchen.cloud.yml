@@ -1,0 +1,30 @@
+---
+driver:
+  name: ec2
+<%= "  security_group_ids: #{ENV['TESTKITCHEN_EC2_SEC_GROUP_IDS']}" if ENV['TESTKITCHEN_EC2_SEC_GROUP_IDS'] %>
+<%= "  subnet_id: #{ENV['TESTKITCHEN_EC2_SUBNET_ID']}" if ENV['TESTKITCHEN_EC2_SUBNET_ID'] %>
+
+provisioner:
+  name: puppet_apply
+  manifest: init.pp
+  manifests_path: manifests
+  modules_path: modules
+
+transport:
+  name: rsync
+
+# https://aws.amazon.com/amazon-linux-ami/#Amazon_Linux_AMI_IDs
+platforms:
+  - name: amazon
+    driver:
+      image_id: ami-8fcee4e5 # 2015.09.2
+    provisioner:
+      puppet_version: 3
+    transport:
+      username: ec2-user
+  - name: centos-6
+  - name: centos-7
+  - name: ubuntu-14.04
+
+suites:
+  - name: default

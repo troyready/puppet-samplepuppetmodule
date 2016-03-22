@@ -1,0 +1,17 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: puppet_apply
+  manifest: init.pp
+  manifests_path: manifests
+  modules_path: modules
+
+platforms:
+  - name: ubuntu-14.04
+  - name: centos-6.7
+  - name: centos-7.1
+
+suites:
+  - name: default
